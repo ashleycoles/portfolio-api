@@ -10,8 +10,10 @@ class PostController extends Controller
 {
     public function all(): JsonResponse
     {
+        $posts = Post::select(['id', 'title', 'featuredImage'])->get();
+
         return response()->json([
-            'data' => Post::all(),
+            'data' => $posts,
         ]);
     }
 }
