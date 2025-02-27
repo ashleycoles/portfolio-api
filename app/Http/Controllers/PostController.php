@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -33,8 +34,9 @@ class PostController extends Controller
                 $fileName = time() . '_' . $image->getClientOriginalName();
 
                 $path = $image->storeAs('images', $fileName);
+                $fullUrl = Storage::url($path);
 
-                $post->update(['featuredImage' => $path]);
+                $post->update(['featuredImage' => $fullUrl]);
             } catch (\Exception $e) {
                 Log::error('Failed to upload featured image: ' . $e->getMessage());
 
