@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
 use App\Models\Post;
+use App\Services\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -24,21 +25,15 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(CreatePostRequest $request): JsonResponse
+    public function store(CreatePostRequest $request, ImageService $imageService): JsonResponse
     {
         $post = Post::create($request->except('featuredImage'));
 
         if ($request->hasFile('featuredImage')) {
-            try {
-                $image = $request->file('featuredImage');
-                $fileName = time() . '_' . $image->getClientOriginalName();
+            $imageUrl = $imageService->store($request->file('featuredImage'));
 
-                $path = $image->storeAs('images', $fileName);
-                $fullUrl = Storage::url($path);
-
-                $post->update(['featuredImage' => $fullUrl]);
-            } catch (\Exception $e) {
-                Log::error('Failed to upload featured image: ' . $e->getMessage());
+            if (!$imageUrl) {
+                Log::error('Failed to upload featured image');
 
                 $post->delete();
 
@@ -46,6 +41,8 @@ class PostController extends Controller
                     'message' => 'Post creation failed'
                 ], 500);
             }
+
+            $post->update(['featuredImage' => $imageUrl]);
         }
 
         Cache::forget('posts');
