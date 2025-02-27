@@ -3,22 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Jobs\RefreshPostsCache;
 use App\Models\Post;
 use App\Services\ImageService;
+use App\Services\PostsCacheService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    public function all(): JsonResponse
+    public function all(PostsCacheService $postsCacheService): JsonResponse
     {
-        $posts = Cache::rememberForever('posts', function () {
-            Log::info('Caching posts');
-            return Post::select(['id', 'title', 'featuredImage'])->get();
-        });
+        $posts = $postsCacheService->getPosts();
 
         return response()->json([
             'data' => $posts,
@@ -45,7 +42,7 @@ class PostController extends Controller
             $post->update(['featuredImage' => $imageUrl]);
         }
 
-        Cache::forget('posts');
+        RefreshPostsCache::dispatch();
 
         return response()->json([
             'message' => 'Post created'
