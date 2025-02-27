@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
+            $table->string('excerpt', 300);
             $table->string('featuredImage')->nullable();
             $table->timestamps();
         });
