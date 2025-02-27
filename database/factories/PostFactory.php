@@ -20,7 +20,7 @@ class PostFactory extends Factory
             'title' => fake()->sentence(3),
             'content' => fake()->paragraphs(3, true),
             'excerpt' => fake()->sentence(6),
-            'featuredImage' => fake()->imageUrl()
+            'featuredImage' => fake()->imageUrl(),
         ];
     }
 }

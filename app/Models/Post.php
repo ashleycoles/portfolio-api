@@ -15,6 +15,6 @@ class Post extends Model
         'title',
         'content',
         'excerpt',
-        'featuredImage'
+        'featuredImage',
     ];
 }

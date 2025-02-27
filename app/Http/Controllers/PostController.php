@@ -8,7 +8,6 @@ use App\Models\Post;
 use App\Services\ImageService;
 use App\Services\PostsCacheService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
@@ -29,13 +28,13 @@ class PostController extends Controller
         if ($request->hasFile('featuredImage')) {
             $imageUrl = $imageService->store($request->file('featuredImage'));
 
-            if (!$imageUrl) {
+            if (! $imageUrl) {
                 Log::error('Failed to upload featured image');
 
                 $post->delete();
 
                 return response()->json([
-                    'message' => 'Post creation failed'
+                    'message' => 'Post creation failed',
                 ], 500);
             }
 
@@ -45,7 +44,7 @@ class PostController extends Controller
         RefreshPostsCache::dispatch();
 
         return response()->json([
-            'message' => 'Post created'
+            'message' => 'Post created',
         ], 201);
     }
 }

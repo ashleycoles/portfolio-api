@@ -17,7 +17,7 @@ class CreatePostRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:5000',
             'excerpt' => 'required|string|max:300',
-            'featuredImage' => 'nullable|image'
+            'featuredImage' => 'nullable|image',
         ];
     }
 }

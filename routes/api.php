@@ -17,7 +17,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('auth.login');
 });
 
-
 Route::controller(CacheController::class)
     ->middleware('auth:sanctum')
     ->group(function () {
