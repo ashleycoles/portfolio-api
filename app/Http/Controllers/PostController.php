@@ -34,7 +34,7 @@ class PostController extends Controller
 
                 $path = $image->storeAs('images', $fileName);
 
-                $post->update(['featuredImage', $path]);
+                $post->update(['featuredImage' => $path]);
             } catch (\Exception $e) {
                 Log::error('Failed to upload featured image: ' . $e->getMessage());
 
@@ -45,6 +45,8 @@ class PostController extends Controller
                 ], 500);
             }
         }
+
+        Cache::forget('posts');
 
         return response()->json([
             'message' => 'Post created'
