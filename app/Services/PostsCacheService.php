@@ -13,7 +13,7 @@ class PostsCacheService
         return Cache::rememberForever('posts', function () {
             Log::info('Caching posts');
 
-            return Post::select(['id', 'title', 'featuredImage', 'excerpt'])->get();
+            return Post::select(['id', 'title', 'slug', 'featuredImage', 'excerpt'])->get();
         });
     }
 
