@@ -24,4 +24,11 @@ class AuthController extends Controller
             'token' => $token,
         ]);
     }
+
+    public function validate(): JsonResponse
+    {
+        return response()->json([
+            'valid' => true
+        ]);
+    }
 }

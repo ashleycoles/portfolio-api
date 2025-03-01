@@ -16,6 +16,9 @@ Route::controller(PostController::class)->group(function () {
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('auth.login');
+    Route::get('/validate', 'validate')
+        ->middleware('auth:sanctum')
+        ->name('auth.validate');
 });
 
 Route::controller(CacheController::class)
