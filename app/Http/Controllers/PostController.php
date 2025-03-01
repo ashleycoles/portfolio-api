@@ -25,14 +25,14 @@ class PostController extends Controller
     {
         $post = $postsCacheService->getPost($slug);
 
-        if (!$post) {
+        if (! $post) {
             return response()->json([
-                'message' => 'Post not found'
+                'message' => 'Post not found',
             ], 404);
         }
 
         return response()->json([
-            'data' => $post
+            'data' => $post,
         ]);
     }
 

@@ -28,7 +28,7 @@ class AuthController extends Controller
     public function validate(): JsonResponse
     {
         return response()->json([
-            'valid' => true
+            'valid' => true,
         ]);
     }
 }
