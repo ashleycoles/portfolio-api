@@ -17,6 +17,17 @@ class PostsCacheService
         });
     }
 
+    public function getPost(string $slug)
+    {
+        return Cache::rememberForever("posts.$slug", function () use ($slug) {
+            Log::info("Caching post: $slug");
+
+            return Post::select(['id', 'title', 'slug', 'featuredImage', 'excerpt', 'content'])
+                ->where('slug', $slug)
+                ->first();
+        });
+    }
+
     public function refreshCache(): void
     {
         Cache::forget('posts');

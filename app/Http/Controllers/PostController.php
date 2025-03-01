@@ -21,6 +21,15 @@ class PostController extends Controller
         ]);
     }
 
+    public function find(string $slug, PostsCacheService $postsCacheService): JsonResponse
+    {
+        $post = $postsCacheService->getPost($slug);
+
+        return response()->json([
+            'data' => $post
+        ]);
+    }
+
     public function store(CreatePostRequest $request, ImageService $imageService): JsonResponse
     {
         $post = Post::create($request->except('featuredImage'));

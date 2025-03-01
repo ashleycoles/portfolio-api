@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'all')->name('posts.all');
+    Route::get('/posts/{slug}', 'find')->name('posts.find');
 
     Route::post('/posts', 'store')
         ->middleware('auth:sanctum')
