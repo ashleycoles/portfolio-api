@@ -21,7 +21,7 @@ class PostFactory extends Factory
             'slug' => fake()->word(),
             'content' => fake()->paragraphs(3, true),
             'excerpt' => fake()->sentence(6),
-            'featuredImage' => fake()->imageUrl(),
+            'featuredImage' => 'https://placehold.co/600x400/EEE/31343C',
         ];
     }
 }
